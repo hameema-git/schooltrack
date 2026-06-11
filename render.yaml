@@ -1,0 +1,41 @@
+services:
+  - type: web
+    name: schooltrack
+    env: python
+    buildCommand: "chmod +x build.sh && ./build.sh"
+    startCommand: "cd backend && gunicorn schooltrack.wsgi:application --bind 0.0.0.0:$PORT"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: ADMIN_USERNAME
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: DB_NAME
+        fromDatabase:
+          name: schooltrack-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: schooltrack-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: schooltrack-db
+          property: password
+      - key: DB_HOST
+        fromDatabase:
+          name: schooltrack-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: schooltrack-db
+          property: port
+
+databases:
+  - name: schooltrack-db
+    plan: free
