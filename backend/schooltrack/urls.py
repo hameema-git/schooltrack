@@ -13,7 +13,14 @@ urlpatterns = [
 
 # Catch-all: serve React index.html for every non-API route
 # This makes React Router work on page refresh / direct URL
+# urlpatterns += [
+#     re_path(r'^(?!api/|admin/|static/|media/).*$',
+#             TemplateView.as_view(template_name='index.html')),
+# ]
+
 urlpatterns += [
-    re_path(r'^(?!api/|admin/|static/|media/).*$',
-            TemplateView.as_view(template_name='index.html')),
+    re_path(
+        r'^(?!api/|admin/).*$',
+        TemplateView.as_view(template_name='index.html')
+    ),
 ]
