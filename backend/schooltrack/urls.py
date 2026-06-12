@@ -9,18 +9,20 @@ urlpatterns = [
     path('api/auth/', include('apps.accounts.urls')),
     path('api/updates/', include('apps.updates.urls')),
     path('api/notes/', include('apps.notes.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
 
-# Catch-all: serve React index.html for every non-API route
-# This makes React Router work on page refresh / direct URL
-# urlpatterns += [
-#     re_path(r'^(?!api/|admin/|static/|media/).*$',
-#             TemplateView.as_view(template_name='index.html')),
-# ]
+# Media files
+urlpatterns += static(
+    settings.MEDIA_URL,
+    document_root=settings.MEDIA_ROOT
+)
 
+# React SPA catch-all
+# Exclude API, admin, and static asset routes
 urlpatterns += [
     re_path(
-        r'^(?!api/|admin/).*$',
-        TemplateView.as_view(template_name='index.html')
+        r'^(?!api/|admin/|static/|media/|assets/|manifest\.json$|sw\.js$|favicon\.ico$|icon-192\.png$|icon-512\.png$).*$',
+        TemplateView.as_view(template_name='index.html'),
+        name='react-app'
     ),
 ]
